@@ -1,0 +1,31 @@
+<div class=" container-sm p-3 mb-2 bg-black text-white">
+    <div class="container col-md-3 col-sm-4">
+        <h5> <%= current_user.email %> </h5>
+        
+        <h4> Groups </h4>
+        <%= turbo_stream_from "groups" %>
+        <%= render 'layouts/new_group_form' %>
+        <div id="groups">
+        <%= render @groups%>
+        </div>
+
+        <h4> Users </h4>
+        <%= turbo_stream_from "users" %>
+        
+        <div id="users">
+        <%= render @users %>
+        </div>
+
+        
+    </div>
+    <% if @single_group %>
+      <div id="single_group">
+        <h4 class="text-center"> <%= @user&.email || @single_group.name %> </h4>
+        <%= turbo_stream_from @single_group%>
+        <div id="messages">
+          <%= render @messages %>
+        </div>
+        <%= render 'layouts/new_message_form' %>
+      </div>
+    <% end %>
+</div>
