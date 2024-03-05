@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_194413) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_05_141418) do
   create_table "groups", force: :cascade do |t|
     t.string "name"
     t.boolean "is_private", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_members_on_group_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -40,6 +49,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_194413) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "members", "groups"
+  add_foreign_key "members", "users"
   add_foreign_key "messages", "groups"
   add_foreign_key "messages", "users"
 end
